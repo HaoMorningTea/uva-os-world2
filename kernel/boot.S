@@ -70,6 +70,9 @@ setup_sp:
 	// quest: boot. Set sp to be at the end (or top) of the bootstack (cpu0)
 	/* TODO: your code here */
 	ldr x1, =boot_stacks	// sched.c		
+	ldr x2, =bss_end             // Load the end of the BSS region
+	sub x1, x2, x1               // Calculate stack size dynamically (0x1110)
+	add sp, x1, #0               // Set the stack pointer to the top of the stack
 	/* TODO: your code here */
 	// NB: we aren't use sp yet -- until we call a C function for the 1st time
 
