@@ -63,9 +63,10 @@ void init(int arg/*ignored*/) {
 
 	// quest: "two cooperative printers"
 	/* TODO: your code here */
-	test_kern_tasks_print();
+	//test_kern_tasks_print();
 	// quest: "two donuts"
 	/* TODO: your code here */
+	test_kern_tasks_donut();
 	// test_kern_task_mgmt();
 	// test_kern_reader_writer(); 
 
