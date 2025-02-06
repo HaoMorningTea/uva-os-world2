@@ -80,6 +80,12 @@ static PIXEL int2rgb (int value);
 //quest: "donuts in sync"
 void donut_pixel(int idx) {
     int sA = 1024, cA = 0, sB = 1024, cB = 0, _;
+
+    // Choose a speed factor based on idx.
+    // For example, donut 0 updates rotation every frame (speed=1),
+    // donut 1 every 2 frames (speed=2), donut 2 every 3 frames, etc.
+    int speed_factor = (idx % 4)*2 + 1; // values 1 to 4
+    int frame = 0;  // frame counter for this donut
     
     while (1) {
         memset(b[idx], 0, 1760);  // text buffer 0: black bkgnd
@@ -118,8 +124,14 @@ void donut_pixel(int idx) {
             }
             R(9, 7, cj, sj) // rotate j
         }
-        R(5, 7, cA, sA);
-        R(5, 8, cB, sB);
+
+        // update the donut’s overall rotation only every 'speed_factor'
+        if (frame % speed_factor == 0) {
+            // rotate A and B
+            R(5, 7, cA, sA);
+            R(5, 8, cB, sB);
+        }
+        frame++;
 
         // screen_clear(idx);   // not needed
         int offsetx = xoff[idx], offsety = yoff[idx]; 
@@ -148,6 +160,7 @@ void donut_pixel(int idx) {
             }
         }
         /* TODO: your code here */
+        yield();
     }
 }
 
