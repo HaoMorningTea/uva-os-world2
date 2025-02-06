@@ -502,6 +502,9 @@ void exit_process(int status) {
     know exists for sure. the next timertick will call schedule() and switch 
     to a normal task (if any) */
     /* TODO: your code here */
+    int cpu = cpuid();
+    struct task_struct *idle = idle_tasks[cpu];
+    switch_to(idle);
 
     /* the "switch-to" task will resume from the schedule()'s exit path, which
     will release sched_lock after sched_lock is released, the parent can proceed

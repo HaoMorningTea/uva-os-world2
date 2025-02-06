@@ -84,8 +84,13 @@ void donut_pixel(int idx) {
     // Choose a speed factor based on idx.
     // For example, donut 0 updates rotation every frame (speed=1),
     // donut 1 every 2 frames (speed=2), donut 2 every 3 frames, etc.
-    int speed_factor = (idx % 4)*2 + 1; // values 1 to 4
+    //int speed_factor = (idx % 4)*2 + 1; // values 1 to 4
+    int speed_factor = 4; // constantly 4 times slower
     int frame = 0;  // frame counter for this donut
+
+    // Record the start time (in seconds and milliseconds).
+    unsigned start_sec, start_msec;
+    current_time(&start_sec, &start_msec);
     
     while (1) {
         memset(b[idx], 0, 1760);  // text buffer 0: black bkgnd
@@ -159,6 +164,16 @@ void donut_pixel(int idx) {
                 x = 1;
             }
         }
+
+        // Check if we've run for roughly 3 seconds
+        unsigned cur_sec, cur_msec;
+        current_time(&cur_sec, &cur_msec);
+        unsigned elapsed = (cur_sec - start_sec) * 1000 + (cur_msec - start_msec);
+        if (elapsed >= 3000 && idx == 0) {
+            printf("Donut task idx %d exiting after %u ms\n", idx, elapsed);
+            exit_process(0);
+        }
+
         /* TODO: your code here */
         yield();
     }
