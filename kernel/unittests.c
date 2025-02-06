@@ -308,6 +308,18 @@ void kern_task_donut(int idx) {
         get_el(), myproc()->pid, idx);
     // exp: diff proirities --> donuts will turn at diff rates
 	/* TODO: your code here */
+
+    // Set priority based on index:
+    // Even index: higher priority, faster donut.
+    // Odd index: lower priority, slower donut.
+    if (idx % 2 == 0) {
+        myproc()->priority = 3; // Higher priority for fast spinning
+    } else {
+        myproc()->priority = 1; // Lower priority for slower spinning
+    }
+    // Set initial credits equal to the priority.
+    myproc()->credits = myproc()->priority;
+    
     donut(idx);
     while (1) {
         yield(); 
